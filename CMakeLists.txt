@@ -71,12 +71,9 @@ CONFIGURE_FILE(
 )
 
 IF(COMMAND cmake_policy)
-  if (POLICY CMP0003)
+  if(POLICY CMP0003)
     cmake_policy(SET CMP0003 NEW)
-  endif()
-  if (POLICY CMP0042)
-    cmake_policy(SET CMP0042 OLD)
-  endif()
+  endif(POLICY CMP0003)
 ENDIF(COMMAND cmake_policy)
 
 MARK_AS_ADVANCED(CMAKE_BACKWARDS_COMPATIBILITY)
