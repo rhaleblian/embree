@@ -14,12 +14,12 @@
 ## limitations under the License.                                           ##
 ## ======================================================================== ##
 
-IF (NOT TBB_ROOT)
-  SET(TBB_ROOT $ENV{TBB_ROOT})
-ENDIF()
-IF (NOT TBB_ROOT)
-  SET(TBB_ROOT $ENV{TBBROOT})
-ENDIF()
+#IF (NOT TBB_ROOT)
+#  SET(TBB_ROOT $ENV{TBB_ROOT})
+#ENDIF()
+#IF (NOT TBB_ROOT)
+#  SET(TBB_ROOT $ENV{TBBROOT})
+#ENDIF()
 
 IF (WIN32)
   # workaround for parentheses in variable name / CMP0053
@@ -37,8 +37,9 @@ IF (WIN32)
     NO_DEFAULT_PATH
   )
   FIND_PATH(EMBREE_TBB_ROOT include/tbb/tbb.h
-    HINTS ${TBB_ROOT}
+#    HINTS ${TBB_ROOT}
     PATHS
+      "C:/Users/ray/Applications/USD-19.07"
       ${PROJECT_SOURCE_DIR}/../tbb
       "${PROGRAMFILES32}/IntelSWTools/compilers_and_libraries/windows/tbb"
       "${PROGRAMFILES32}/Intel/Composer XE/tbb"
@@ -61,8 +62,11 @@ IF (WIN32)
     SET(TBB_VCVER vc14)
   ENDIF()
 
-  SET(TBB_LIBDIR ${EMBREE_TBB_ROOT}/lib/${TBB_ARCH}/${TBB_VCVER})
-  SET(TBB_BINDIR ${EMBREE_TBB_ROOT}/bin/${TBB_ARCH}/${TBB_VCVER})
+#  SET(TBB_LIBDIR ${EMBREE_TBB_ROOT}/lib/${TBB_ARCH}/${TBB_VCVER})
+#  SET(TBB_BINDIR ${EMBREE_TBB_ROOT}/bin/${TBB_ARCH}/${TBB_VCVER})
+  # As per USD installation.
+  SET(TBB_LIBDIR ${EMBREE_TBB_ROOT}/bin)
+  SET(TBB_BINDIR ${EMBREE_TBB_ROOT}/bin)
 
   IF (EMBREE_TBB_ROOT STREQUAL "")
     FIND_PATH(TBB_INCLUDE_DIR tbb/task_scheduler_init.h)
@@ -125,6 +129,7 @@ ELSE ()
       FIND_LIBRARY(TBB_LIBRARY_MALLOC tbbmalloc PATHS ${EMBREE_TBB_ROOT}/lib NO_DEFAULT_PATH)
     ELSE()
       FIND_PATH(TBB_INCLUDE_DIR tbb/task_scheduler_init.h PATHS ${EMBREE_TBB_ROOT}/include NO_DEFAULT_PATH)
+      #SET(TBB_HINTS HINTS ${EMBREE_TBB_ROOT}/lib/intel64/gcc4.4 ${EMBREE_TBB_ROOT}/lib ${EMBREE_TBB_ROOT}/lib64 PATHS /usr/libx86_64-linux-gnu/)
       SET(TBB_HINTS HINTS ${EMBREE_TBB_ROOT}/lib/intel64/gcc4.4 ${EMBREE_TBB_ROOT}/lib ${EMBREE_TBB_ROOT}/lib64 PATHS /usr/libx86_64-linux-gnu/)
       FIND_LIBRARY(TBB_LIBRARY tbb ${TBB_HINTS})
       FIND_LIBRARY(TBB_LIBRARY_MALLOC tbbmalloc ${TBB_HINTS})
